@@ -2,6 +2,11 @@ export class Enemy {
     constructor(x, y) {
         this.x = x
         this.y = y
+        this.speed = 1
+    }
+
+    update() {
+        this.x -= this.speed // Двигаем влево
     }
 
     draw(ctx) {

@@ -14,7 +14,7 @@ export class Game {
 
     init() {
         this.towers.push(new Tower(100, 100))
-        this.enemies.push(new Enemy(700, 300))
+        this.enemies.push(new Enemy(700, 100))
     }
 
     start() {
@@ -33,13 +33,30 @@ export class Game {
             enemy.update()
             enemy.draw(this.ctx)
         })
-        this.projectiles.forEach((projectile, index) => {
+        this.projectiles.forEach((projectile, pIndex) => {
             projectile.update()
             projectile.draw(this.ctx)
+
             if (projectile.x > this.canvas.width) {
-                this.projectiles.slice(index, 1)
+                this.projectiles.slice(pIndex, 1)
             }
+
+            this.enemies.forEach((enemy, eIndex) => {
+                if (this.checkCollision(projectile, enemy)) {
+                    this.projectiles.splice(pIndex, 1)
+                    this.enemies.splice(eIndex, 1)
+                }
+            })
         })
         requestAnimationFrame(() => this.update())
+    }
+
+    checkCollision(projectile, enemy) {
+        return (
+            projectile.x < enemy.x + 30 &&
+            projectile.x + 10 > enemy.x &&
+            projectile.y < enemy.y + 30 &&
+            projectile.y + 5 > enemy.y
+        )
     }
 }

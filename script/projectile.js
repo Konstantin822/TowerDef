@@ -2,7 +2,7 @@ export class Projectile {
     constructor(x, y) {
         this.x = x
         this.y = y
-        this.speed = 3
+        this.speed = 5
     }
 
     update() {

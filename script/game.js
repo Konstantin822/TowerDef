@@ -38,7 +38,7 @@ export class Game {
             projectile.draw(this.ctx)
 
             if (projectile.x > this.canvas.width) {
-                this.projectiles.slice(pIndex, 1)
+                this.projectiles.splice(pIndex, 1)
             }
 
             this.enemies.forEach((enemy, eIndex) => {

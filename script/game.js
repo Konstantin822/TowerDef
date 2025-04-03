@@ -10,6 +10,7 @@ export class Game {
         this.enemies = []
         this.projectiles = []
         this.init()
+        this.addEventListeners()
     }
 
     init() {
@@ -58,5 +59,21 @@ export class Game {
             projectile.y < enemy.y + 30 &&
             projectile.y + 5 > enemy.y
         )
+    }
+
+    addEventListeners() {
+        this.canvas.addEventListener('click', (event) => {
+            const rect = this.canvas.getBoundingClientRect()
+            const x = event.clientX - rect.left
+            const y = event.clientY - rect.top
+
+            const isOccupied = this.towers.some(tower =>
+                Math.abs(tower.x - (x - 20)) < 40 && Math.abs(tower.y - (y - 20)) < 40
+            );
+
+            if (!isOccupied) {
+                this.towers.push(new Tower(x - 20, y - 20))
+            }
+        })
     }
 }

@@ -21,7 +21,10 @@ export class Game {
     start() {
         setInterval(() => {
             this.towers.forEach(tower => {
-                this.projectiles.push(tower.shoot())
+                const target = tower.findTarget(this.enemies)
+                if (target) {
+                    this.projectiles.push(tower.shoot(target))
+                }
             })
         }, 1000) // Башня стреляет раз в секунду
         this.update()

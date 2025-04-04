@@ -4,7 +4,7 @@ export class Tower {
     constructor(x, y) {
         this.x = x
         this.y = y
-        this.range = 100
+        this.range = 200
     }
 
     draw(ctx) {
@@ -17,7 +17,15 @@ export class Tower {
         ctx.stroke()
     }
 
-    shoot() {
-        return new Projectile(this.x + 40, this.y + 20)
+    findTarget(enemies) {
+        return enemies.find(enemy => {
+            const dx = enemy.x - this.x
+            const dy = enemy.y - this.y
+            return Math.sqrt(dx * dx + dy * dy) <= this.range
+        })
+    }
+
+    shoot(target) {
+        return new Projectile(this.x + 20, this.y + 20, target)
     }
 }

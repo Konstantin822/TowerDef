@@ -15,7 +15,7 @@ export class Game {
 
     init() {
         this.towers.push(new Tower(100, 100))
-        this.enemies.push(new Enemy(700, 100))
+        this.enemies.push(new Enemy([{ x: 700, y: 300 }, { x: 500, y: 300 }, { x: 500, y: 500 }, { x: 300, y: 500 }]))
     }
 
     start() {

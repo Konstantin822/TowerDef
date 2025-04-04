@@ -1,12 +1,25 @@
 export class Projectile {
-    constructor(x, y) {
+    constructor(x, y, target) {
         this.x = x
         this.y = y
-        this.speed = 3
+        this.target = target
+        this.speed = 1
     }
 
     update() {
-        this.x += this.speed // Двигаем вправо
+        if (this.target) {
+            const dx = this.target.x - this.x
+            const dy = this.target.y - this.y
+            const distance = Math.sqrt(dx * dx + dy * dy)
+
+            if (distance < this.speed) {
+                this.x = this.target.x
+                this.y = this.target.y
+            } else {
+                this.x += (dx / distance) * this.speed
+                this.y += (dy / distance) * this.speed
+            }
+        }
     }
 
     draw(ctx) {

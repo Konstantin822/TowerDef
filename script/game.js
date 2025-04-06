@@ -9,6 +9,7 @@ export class Game {
         this.towers = []
         this.enemies = []
         this.projectiles = []
+        this.strongEnemiesStarted = false
         this.init()
         this.addEventListeners()
     }
@@ -18,14 +19,14 @@ export class Game {
         this.enemies.push(new Enemy([{ x: 700, y: 300 }, { x: 500, y: 300 }, { x: 500, y: 500 }, { x: 300, y: 500 }]))
     }
 
-    spawnEnemy() {
-        const path = [
+    spawnEnemy(isStrong = false) {
+        const enemy = new Enemy([
             { x: 700, y: 300 },
             { x: 500, y: 300 },
             { x: 500, y: 500 },
             { x: 300, y: 300 }
-        ]
-        this.enemies.push(new Enemy(path))
+        ], isStrong)
+        this.enemies.push(enemy)
     }
 
     start() {
@@ -42,6 +43,15 @@ export class Game {
         setInterval(() => {
             this.spawnEnemy()
         }, 3000)
+
+        // Спавн сильных врагов
+        setTimeout(() => {
+            this.strongEnemiesStarted = true
+            setInterval(() => {
+                this.spawnEnemy(true)
+            }, 5000) // Спавн каждые 5 сек
+        }, 5000) // Спавн через 5 сек после начала игры
+
         this.update()
     }
 
@@ -53,6 +63,10 @@ export class Game {
             enemy.draw(this.ctx)
         })
         this.projectiles.forEach((projectile, pIndex) => {
+            if (!projectile.target || projectile.target.hp <= 0) {
+                this.projectiles.splice(pIndex, 1);
+                return;
+            }
             projectile.update()
             projectile.draw(this.ctx)
 
@@ -63,7 +77,10 @@ export class Game {
             this.enemies.forEach((enemy, eIndex) => {
                 if (this.checkCollision(projectile, enemy)) {
                     this.projectiles.splice(pIndex, 1)
-                    this.enemies.splice(eIndex, 1)
+                    enemy.hp--
+                    if (enemy.hp <= 0) {
+                        this.enemies.splice(eIndex, 1)
+                    }
                 }
             })
         })

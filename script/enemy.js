@@ -1,10 +1,12 @@
 export class Enemy {
-    constructor(path) {
+    constructor(path, isStrong = false) {
         this.path = path
         this.currentTargetIndex = 0
         this.x = path[0].x
         this.y = path[0].y
-        this.speed = 1
+        this.speed = isStrong ? 0.5 : 1
+        this.hp = isStrong ? 4 : 2
+        this.color = isStrong ? 'purple' : 'red'
     }
 
     update() {
@@ -28,5 +30,9 @@ export class Enemy {
     draw(ctx) {
         ctx.fillStyle = 'red'
         ctx.fillRect(this.x, this.y, 30, 30)
+
+        ctx.fillStyle = 'white'
+        ctx.font = '12px Arial'
+        ctx.fillText(this.hp, this.x + 10, this.y + 20)
     }
 }

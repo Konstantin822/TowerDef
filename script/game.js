@@ -18,6 +18,16 @@ export class Game {
         this.enemies.push(new Enemy([{ x: 700, y: 300 }, { x: 500, y: 300 }, { x: 500, y: 500 }, { x: 300, y: 500 }]))
     }
 
+    spawnEnemy() {
+        const path = [
+            { x: 700, y: 300 },
+            { x: 500, y: 300 },
+            { x: 500, y: 500 },
+            { x: 300, y: 300 }
+        ]
+        this.enemies.push(new Enemy(path))
+    }
+
     start() {
         setInterval(() => {
             this.towers.forEach(tower => {
@@ -27,6 +37,11 @@ export class Game {
                 }
             })
         }, 1000) // Башня стреляет раз в секунду
+
+        // Спаун врагов
+        setInterval(() => {
+            this.spawnEnemy()
+        }, 3000)
         this.update()
     }
 

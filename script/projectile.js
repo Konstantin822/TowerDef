@@ -3,7 +3,7 @@ export class Projectile {
         this.x = x
         this.y = y
         this.target = target
-        this.speed = 1
+        this.speed = 2
     }
 
     update() {
